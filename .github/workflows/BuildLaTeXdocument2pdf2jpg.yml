@@ -1,4 +1,5 @@
-name: Build LaTeX document 2 pdf
+
+name: LaTeX-pandoc-pdf
 on: [push]
 jobs:
   build_latex:
@@ -15,21 +16,3 @@ jobs:
           name: hello.pdf
           path: hello.pdf
           
-
-  convert_via_pandoc:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: docker://pandoc/core:2.9
-        with:
-          args: >-
-            -s hello.tex
-            -f latex
-            -t jpg
-            -o hello.jpg
-      - uses: actions/upload-artifact@master
-        with:
-          name: hello.jpg
-          path: hello.jpg
-          
-      
