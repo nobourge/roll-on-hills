@@ -13,6 +13,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: hello.pdf
-          path: ${{ github.repository }}/hello.pdf
+          path: ${{ github.repository }}
           
       
