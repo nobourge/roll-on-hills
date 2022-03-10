@@ -13,4 +13,11 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: hello.pdf
-          path: ${{ github.workspace }}/hello.pdf
+          path: hello.pdf
+          
+      - name: Commit 
+        run: |
+          git config --global user.name nobourge
+          git config --global user.email 'nobourge@users.noreply.github.com'
+          git commit -am "Automated report"
+          git push
