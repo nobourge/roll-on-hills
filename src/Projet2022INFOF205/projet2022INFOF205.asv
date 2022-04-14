@@ -8,14 +8,8 @@ if exist('playvideo','var') ~= 1, playvideo = true; end
 
 nsteps = tmax/stepsize;
 wheelcolor = [6 3 2]/10;
-%rand('state',matricule) %Unrecognized function or variable 'matricule'.
+%rand('state',matricule)
 rand('state',000496667)
-%rng('state',000496667)
-%rng(000496667)
-%rng(seed,'state',000496667)
-%rng(seed, 'state') %Unrecognized function or variable 'seed'.
-
-
 
 
 t0 = 0;
@@ -40,8 +34,7 @@ for step = 1:nsteps
    % à compléter ...
    %
    %|x^'(t)|²
-   %vxhat2 = (2.*g.*(y0-yhatE(step)+v0.^2))./(1+(slopehatE(step)).^2);
-   vxhat2 = (2*g*(y0-yhatE(step)+v0^2))/(1+(slopehatE(step))^2);
+   vxhat2 = (2.*g.*(y0-yhatE(step)+v0^2))./(1+(slopehatE(step))^2);
    if vxhat2 < 0
        %la methode numerique entre dans une “zone interdite” 
        %par la physique (et la mathematique).s 

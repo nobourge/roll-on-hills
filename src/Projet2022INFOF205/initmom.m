@@ -1,5 +1,5 @@
 
-function Mn = initmom(x,n);
+function Mn = initmom(x,n)
 
 % initmom -- ThreshLab2/Irregular/1D/ -- 
 %     initializes moments of scaling basis functions at finest scale
@@ -25,7 +25,7 @@ function Mn = initmom(x,n);
 %    help updateprimalmoments for the construction of lifting steps on the
 %                             basis of moments
 
-if nargin < 2,
+if nargin < 2
    n = 0;
 end
 x = row(x);
