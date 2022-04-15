@@ -6,8 +6,10 @@ function [x00, y00, xoo, yoo] = rollonhills(x,y,v,r,color,frames)
 %    [x00 y00 xoo yoo] = rollonhills(x,y,vo,r,color,frames)
 % Inputs
 %    x,y,vo  real vectors of equal lengths n; 
-%            (x,y) positions of point of tangency; vo speed at wheel center
-%    r       positive real number; radius of the wheel
+%            (x,y) positions of point of tangency; 
+%            vo    speed at wheel center
+%    r       positive real number; 
+%            radius of the wheel
 %    color   (default 'k','black',[0 0 0]) Matlab color specicfication
 %    frames  time points in which position is displayed (default is equidistant
 %            vector at a rate of 1/24 seconds)
@@ -32,10 +34,10 @@ if nargin<6, frames = NaN; end
 if nargin<5, color = 'k'; end
 if nargin<4, r = NaN; end
 if nargin<3, v = 1; end
-if ischar(r) 
+if ischar(r) || length(r)==3
    color = r; r = NaN; 
-elseif length(r)==3
-   color = r; r = NaN;
+%elseif length(r)==3
+ %  color = r; r = NaN;
 end
 wheelopt = {'color',color,'linewidth',2};
 
@@ -100,7 +102,10 @@ for f=1:nframes
    plot(xo+wheelx,yo+wheely,wheelopt{:})
    fill(xo+wheelx/3,yo+wheely/3,color)   
    plot(xo+wheelx/3,yo+wheely/3,'color',color)
-   for s=1:3, ss = [s s+3]; plot(spikes(ss,1),spikes(ss,2),wheelopt{:}); end
+   for s=1:3 
+       ss = [s s+3]; 
+       plot(spikes(ss,1),spikes(ss,2),wheelopt{:}); 
+   end
    hold off
    axis equal
    axis([xxx(1) xxx(end) 0 y1])

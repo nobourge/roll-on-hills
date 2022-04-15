@@ -1,5 +1,5 @@
 
-function Phi = Bsplinefunctions(x,knots,degree,ext);
+function Phi = Bsplinefunctions(x,knots,degree,ext)
 
 % Bsplinefunctions - version independent from software package
 % Usage
@@ -32,45 +32,45 @@ n = length(x);
 nk = length(knots);
 if ext==true, nPhi = nk-1; else, nPhi = nk; end 
 % at the end, we will have for ext==true that nPhi = nk+degree-1;
-if degree < 1,
+if degree < 1
    Phi = zeros(n,nPhi); 
    knots = [knots; Inf];
-   for k=1:nPhi,
+   for k=1:nPhi
       Phi(1:n,k) = (x>=knots(k) & x<knots(k+1));
    end
 else
    Phi = zeros(n,nk);
-   for k=2:nk, 
+   for k=2:nk 
       i=find(x>knots(k-1)&x<=knots(k));
       Phi(i,k) = (x(i)-knots(k-1))/(knots(k)-knots(k-1));
    end
-   for k=1:nk-1,
+   for k=1:nk-1
       i=find(x>=knots(k)&x<knots(k+1));
       Phi(i,k) = (knots(k+1)-x(i))/(knots(k+1)-knots(k));
    end
    nPhi = nk;
-   for s = 3:degree+1,
+   for s = 3:degree+1
       Phi0 = Phi;
       t = floor(s/2); r = s-2*t;
-      for k = 2-r:t,
+      for k = 2-r:t
          Phi(1:n,k) = ...
             (x-knots(1))/(knots(k-t+s-1)-knots(1)).*Phi0(1:n,k+r-1) + ...
             (knots(k-t+s)-x)/(knots(k-t+s)-knots(1)).*Phi0(1:n,k+r);
       end
-      for k = t+1:nPhi-s+t,
+      for k = t+1:nPhi-s+t
          Phi(1:n,k) = ...
             (x-knots(k-t))/(knots(k-t+s-1)-knots(k-t)).*Phi0(1:n,k+r-1) + ...
             (knots(k-t+s)-x)/(knots(k-t+s)-knots(k-t+1)).*Phi0(1:n,k+r);
       end
-      for k = nPhi-s+t+1:nPhi-r,
+      for k = nPhi-s+t+1:nPhi-r
          Phi(1:n,k) = ...
             (x-knots(k-t))/(knots(nPhi)-knots(k-t)).*Phi0(1:n,k+r-1) + ...
             (knots(nPhi)-x)/(knots(nPhi)-knots(k-t+1)).*Phi0(1:n,k+r);
       end
-      if r==1,
+      if r==1
          Phi(1:n,nPhi) = ...
          (x-knots(nPhi-t))/(knots(nPhi)-knots(nPhi-t)).*Phi0(1:n,nPhi);
-         if ext==true,
+         if ext==true
             % (k = 0)
             phi0 = (knots(-t+s)-x)/(knots(-t+s)-knots(1)).*Phi0(1:n,1);
             knots = [knots(1); knots];
@@ -78,9 +78,9 @@ else
             nPhi = nPhi+1;
          end
       end
-      if r==0,
+      if r==0
          Phi(1:n,1) = (knots(1-t+s)-x)/(knots(1-t+s)-knots(1)).*Phi0(1:n,1);
-         if ext==true,
+         if ext==true
             k = nPhi+1;
             phi1 = (x-knots(k-t))/(knots(nPhi)-knots(k-t)).*Phi0(1:n,nPhi);
             knots = [knots; knots(nPhi)];
