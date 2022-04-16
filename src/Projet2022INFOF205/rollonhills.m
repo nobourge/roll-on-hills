@@ -53,11 +53,13 @@ end
 if length(v)==1, v = v*ones(size(x)); end
 
 % Find elapsed time and total distance
-dx = x(2:n)-x(1:n-1); dy = y(2:n)-y(1:n-1);
+dx = x(2:n)-x(1:n-1); 
+dy = y(2:n)-y(1:n-1);
 ds = sqrt(dx.^2+dy.^2).*sign(dx);
 s = [0; cumsum(ds)];
 vbar = (v(1:n-1)+v(2:n))/2;
-dt = abs(ds)./vbar; dt(isnan(dt))=0; dt(isinf(dt))=0;
+dt = abs(ds)./vbar; 
+dt(isnan(dt))=0; dt(isinf(dt))=0;
 t = [0; cumsum(dt)];
 
 if isnan(r), r = s(n)/40; end
@@ -88,7 +90,10 @@ yyo = yy+sin(atan(-dxx./dyy)).*sign(-dxx./dyy)*r;
 
 alfa = -ss/r;
 
-w = 100; wheel = (0:w)/w*2*pi; wheelx = r*cos(wheel); wheely = r*sin(wheel);
+w = 100; 
+wheel = (0:w)/w*2*pi; 
+wheelx = r*cos(wheel); 
+wheely = r*sin(wheel);
 for f=1:nframes
    xf = xx(f); 
    yf = yy(f); 

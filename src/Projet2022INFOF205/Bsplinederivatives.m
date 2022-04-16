@@ -1,5 +1,5 @@
 
-function DPhi = Bsplinederivatives(x,knots,degree,ext);
+function DPhi = Bsplinederivatives(x,knots,degree,ext)
 
 % Bsplinederivative - version independent from software package
 % Usage
