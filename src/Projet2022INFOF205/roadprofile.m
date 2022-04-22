@@ -5,6 +5,8 @@ function [y, Dy] = roadprofile(x)
 %y = 1;
 %y = -x;
 y = sin(x);
+%y = cos(x);
+
 %y = x.^2.*sin(x);
 %y = x.^2.*cos(x);
 
@@ -12,6 +14,7 @@ y = sin(x);
 %%%Dy = 0;
 %%%Dy = -1;
 Dy = cos(x);
+%Dy = -sin(x);
 
 %Dy = 2.*x.*sin(x) + x.^2.*cos(x);
 %Dy = 2.*x.*cos(x) + x.^2.*(-sin(x));

@@ -30,12 +30,14 @@ function [x00, y00, xoo, yoo] = rollonhills(x,y,v,r,color,frames)
 % See Also
 %          
 
+%% arg in
 if nargin<6, frames = NaN; end
 if nargin<5, color = 'k'; end
 if nargin<4, r = NaN; end
 if nargin<3, v = 1; end
 if ischar(r) || length(r)==3
-   color = r; r = NaN; 
+   color = r; 
+   r = NaN; 
 %elseif length(r)==3
  %  color = r; r = NaN;
 end
@@ -44,6 +46,7 @@ wheelopt = {'color',color,'linewidth',2};
 if size(x,1)==1, x=x'; end 
 if size(y,1)==1, y=y'; end
 if size(v,1)==1, v=v'; end
+
 n = length(x);
 if length(y) == 2
    y = (x-x(1))*(y(2)-y(1))/(x(n)-x(1));
@@ -52,7 +55,7 @@ elseif length(y)~=n
 end
 if length(v)==1, v = v*ones(size(x)); end
 
-% Find elapsed time and total distance
+%% Find elapsed time and total distance
 dx = x(2:n)-x(1:n-1); 
 dy = y(2:n)-y(1:n-1);
 ds = sqrt(dx.^2+dy.^2).*sign(dx);
@@ -75,16 +78,17 @@ Phi = Bsplinefunctions(tt,t,1);
 xx = Phi*x;
 yy = Phi*y;
 vv = Phi*v;
+%
 ss = Phi*s;
 [xxx, i] = unique([xx;x]);
 yyy = [yy;y]; yyy = yyy(i);
 xxx = [xxx(1)-r;xxx;xxx(end)+r]; yyy = [yyy(1);yyy;yyy(end)];
 ymin = min(yyy); ymax = max(yyy); y0 = ymin*1.1-0.1*ymax; y1 = ymax+2*r-y0;
-% shift plot so that left lower corner is at the origin 
+%% shift plot so that left lower corner is at the origin 
 x0 = min(xxx); xxx=xxx-x0;yyy=yyy-y0;xx=xx-x0;yy=yy-y0;
 PhiD = Bsplinederivatives(tt,t,1);
 dxx = PhiD*x; dyy = PhiD*y;
-% dxx = initmom(xx); dyy = initmom(yy);
+dxx = initmom(xx); dyy = initmom(yy);
 xxo = xx+cos(atan(-dxx./dyy)).*sign(-dxx./dyy)*r;
 yyo = yy+sin(atan(-dxx./dyy)).*sign(-dxx./dyy)*r;
 
@@ -103,6 +107,7 @@ for f=1:nframes
    spikes = [xo+r*cos(spikes) yo+r*sin(spikes)];
    fill([xxx;xxx(end);xxx(1)],[yyy;0;0],[1 1 1]*0.4)
    hold on
+   figure(3)
    plot(xxx,yyy,'k','linewidth',2)
    plot(xo+wheelx,yo+wheely,wheelopt{:})
    fill(xo+wheelx/3,yo+wheely/3,color)   
@@ -112,11 +117,13 @@ for f=1:nframes
        plot(spikes(ss,1),spikes(ss,2),wheelopt{:}); 
    end
    hold off
+   grid
    axis equal
    axis([xxx(1) xxx(end) 0 y1])
    axis off
    pause(frametime)
 end
+%% arg out
 if nargout>0
    x00 = x0;
 end

@@ -104,7 +104,18 @@ end
 %xhatE
 vxhatE(nsteps+1) = 0;
 
-show_plot(nsteps, xhatE, vxhatE);
+nsteps
+x=0:1:nsteps;
+
+figure(1)
+plot(plotv,vxhatE,'DisplayName','vxhatE');
+hold on
+%scatter(x,xhatE,'filled','DisplayName','xhatE');
+plot(x,xhatE,'DisplayName','xhatE');
+hold off
+grid
+%legend('vxhatE','xhatE')
+legend
 
 if playvideo==true, figure(1)
    % L'objectif des calculs suivants est 
