@@ -2,7 +2,7 @@ function show_plot(nsteps, xhatE, vxhatE)
 %nsteps
 x=0:1:nsteps;
 
-figure(1)
+figure(2)
 %plotvxhatE = 0:0.1:max(vxhatE);
 plot(x,vxhatE,'DisplayName','vxhatE');
 hold on

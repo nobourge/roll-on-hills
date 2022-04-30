@@ -107,7 +107,7 @@ for f=1:nframes
    spikes = [xo+r*cos(spikes) yo+r*sin(spikes)];
    fill([xxx;xxx(end);xxx(1)],[yyy;0;0],[1 1 1]*0.4)
    hold on
-   figure(3)
+   %figure(3)
    plot(xxx,yyy,'k','linewidth',2)
    plot(xo+wheelx,yo+wheely,wheelopt{:})
    fill(xo+wheelx/3,yo+wheely/3,color)   
