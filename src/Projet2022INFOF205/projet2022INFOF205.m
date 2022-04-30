@@ -54,6 +54,10 @@ vxhatE = zeros(1,nsteps+1); %%%
 vxhatE(1) = v0; %%%
 direction = sign(v0);   %%%
 
+Ecin = zeros(1,nsteps+1);
+Epot = zeros(1,nsteps+1);
+Etot = zeros(1,nsteps+1);
+
 %hold on
 for step = 1:nsteps
     step
@@ -94,20 +98,18 @@ for step = 1:nsteps
       %xhatE(step+1)
       %disp('---------')
    end
-   Ecin = ((vxhatE(step)*sqrt(1+(slopehatE(step)).^2)).^2)/2;
-   Epot = g*(yhatE(step)-h0);
-   Etot = Ecin + Epot;
+   Ecin(step) = ((vxhatE(step)*sqrt(1+(slopehatE(step)).^2)).^2)/2;
+   Epot(step) = g*(yhatE(step)-h0);
+   Etot(step) = Ecin(step) + Epot(step);
    tx = 0:pi/100:2*pi;
-   %plot(t, Epot);
-   %plot(step,vxhatE(step));
-
 end
 
 %xhatE
 vxhatE(nsteps+1) = 0;   %%%
 
-%show_plot(nsteps, xhatE, vxhatE);
+plot_energies(nsteps, xhatE, vxhatE, Epot, Ecin, Etot);
 
+playvideo = false;
 if playvideo==true, figure(1)   %%%
    % L'objectif des calculs suivants est 
    % l'identification de la surface sur laquelle la roue roule. 
@@ -136,7 +138,8 @@ if playvideo==true, figure(1)   %%%
    screensize = get(0,'screensize');    %%%
    screensize = screensize(3:4);    %%%
    %          x         y
-   figsize = [560*r0/r, 420];   %%%
+   %figsize = [560*r0/r, 420];   %%%
+   figsize = [560*r0/r, 920];   %%%
    %figsize
    figsize = min(figsize,screensize);   %%%
    figsize
