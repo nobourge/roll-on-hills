@@ -1,5 +1,5 @@
 
-function [x00, y00, xoo, yoo] = rollonhills(x,y,v,r,color,frames)
+function [x00, y00, xoo, yoo] = rollonhillsenergiesviz(nsteps, xhatE, vxhatE, Epot, Ecin, Etot, x,y,v,r,color,frames)
 
 % rollonhills; displays (x,y) as wheel rolling on hill at given speed v
 % Usage
@@ -21,20 +21,21 @@ function [x00, y00, xoo, yoo] = rollonhills(x,y,v,r,color,frames)
 % Note
 %    (1)
 %    The framerate (i.e., the time gaps between the frames) affects the video
-%    quality of the simulation. Too low framerates (i.e., too large gaps, too
-%    small vector of frames) may cause aliasing. Too high framerates may slow
+%    quality of the simulation. 
+%    Too low framerates (i.e., too large gaps, too small vector of frames) may cause aliasing. 
+%    Too high framerates may slow
 %    down Matlab's calculations, leding to unrealistically slow motion.
 %    (2)
-%    Calculations are approximative, ignoring 2nd order effects. This results
-%    in slipping effects in highly curved valleys.
+%    Calculations are approximative, ignoring 2nd order effects. 
+%    This results in slipping effects in highly curved valleys.
 % See Also
 %          
 
 %% arg in
-if nargin<6, frames = NaN; end
-if nargin<5, color = 'k'; end
-if nargin<4, r = NaN; end
-if nargin<3, v = 1; end
+if nargin<12, frames = NaN; end
+if nargin<11, color = 'k'; end
+if nargin<10, r = NaN; end
+if nargin<9, v = 1; end
 if ischar(r) || length(r)==3
    color = r; 
    r = NaN; 
@@ -65,7 +66,9 @@ dt = abs(ds)./vbar;
 dt(isnan(dt))=0; dt(isinf(dt))=0;
 t = [0; cumsum(dt)];
 
-if isnan(r), r = s(n)/40; end
+if isnan(r)
+    r = s(n)/40;
+end
 framerate = 24;
 framerate = framerate*8;
 frametime = 1/framerate;
@@ -107,23 +110,58 @@ yyo = yy+sin(atan(-dxx./dyy)).*sign(-dxx./dyy)*r;
 alfa = -ss/r;
 
 w = 100; 
-wheel = (0:w)/w*2*pi; 
+wheel = (0:w)/w*2*pi; %%% wheel form
 wheelx = r*cos(wheel); 
 wheely = r*sin(wheel);
 for f=1:nframes
+    
    xf = xx(f); 
    yf = yy(f); 
    xo = xxo(f); 
    yo = yyo(f);
    spikes = alfa(f)+(0:5)'*pi/3;
    spikes = [xo+r*cos(spikes) yo+r*sin(spikes)];
-   fill([xxx;xxx(end);xxx(1)],[yyy;0;0],[1 1 1]*0.4)
+   
+   %% ground
+   %%% http://math.loyola.edu/~loberbro/matlab/html/colorsInMatlab.html
+   %%% black	k	[0,0,0]
+   %%% white	w	[1,1,1]
+   
+   fill([xxx; xxx(end); xxx(1)],[yyy;0;0],[1 1 1]*0.4,'DisplayName','ground')  %%% ground
    hold on
-   %figure(3)
-   plot(xxx,yyy,'k','linewidth',2)
-   plot(xo+wheelx,yo+wheely,wheelopt{:})
-   fill(xo+wheelx/3,yo+wheely/3,color)   
-   plot(xo+wheelx/3,yo+wheely/3,'color',color)
+   
+   %% position
+   x=0:1:nsteps;
+   x=x./100;
+
+   %plot(xxx,xhatE,'DisplayName','xhatE');
+   %plot(n,xhatE,'DisplayName','xhatE');
+   plot(x,xhatE,'DisplayName','xhatE');
+   hold on
+   plot(x,vxhatE,'DisplayName','vxhatE');
+   hold on
+   %% energies
+   
+    
+    plot(x,Epot,'DisplayName','Epot');
+    hold on
+    plot(x,Ecin,'DisplayName','Ecin');
+    hold on
+    plot(x,Etot,'DisplayName','Etot');
+    hold on
+    
+    
+   %% road
+    
+   plot(xxx,yyy,'k','linewidth',2,'DisplayName','Road')
+   %% wheel
+   plot(xo+wheelx, yo+wheely,wheelopt{:},'DisplayName','wheel')
+   
+   %legend % lag
+   
+   fill(xo+wheelx/3, yo+wheely/3, color)   
+   
+   plot(xo+wheelx/3, yo+wheely/3, 'color',color)
    for s=1:3 
        ss = [s s+3]; 
        plot(spikes(ss,1),spikes(ss,2),wheelopt{:}); 
@@ -134,7 +172,9 @@ for f=1:nframes
    axis([xxx(1) xxx(end) 0 y1])
    axis off
    pause(frametime)
+   
 end
+%legend
 %% arg out
 if nargout>0
    x00 = x0;
