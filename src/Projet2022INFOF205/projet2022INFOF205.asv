@@ -1,8 +1,8 @@
 % This version of the solution works with yhatE(step) and slopehatE(step)
 % throughout the iteration steps
-%if exist('tmax','var') ~= 1, tmax = 6; end %%%original
+if exist('tmax','var') ~= 1, tmax = 6; end %%%original
 %if exist('tmax','var') ~= 1, tmax = 66; end
-if exist('tmax','var') ~= 1, tmax = 666; end
+%if exist('tmax','var') ~= 1, tmax = 666; end
 
 if exist('nsteps','var') ~= 1 
     nsteps = 4000; %max   %%%
@@ -170,19 +170,17 @@ if playvideo==true, figure(1)   %%%
    % (f(x) et f'(x), voir yhatE(xhatE) et slopehatE)
 
    xx = xhatE+r*slopehatE./sqrt(1+slopehatE.^2);    %%%
+   %xx
    yy = yhatE-r./sqrt(1+slopehatE.^2);  %%%
-   
+   %yy
+   %rollonhills(x, y, v,    r,   color,    frames)
+   %rollonhills(xx,yy,vhatE,0.03,wheelcolor) %original
    xx
    yy
    vhatE
    %r
    %wheelcolor
-   
-   %rollonhills(x, y, v,    r,   color,     frames)
-   rollonhills(xx, yy,vhatE,r,   wheelcolor)    
-   %rollonhills(xx,yy,vhatE,r,   wheelcolor, 24)    
-
-   %rollonhills(xx,yy,vhatE,0.03,wheelcolor) %original
+   rollonhills(xx,yy,vhatE,r,wheelcolor)    
 
 end
 
