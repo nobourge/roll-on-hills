@@ -136,10 +136,10 @@ for f=1:nframes
 
    %plot(xxx,xhatE,'DisplayName','xhatE');
    %plot(n,xhatE,'DisplayName','xhatE');
-   plot(x,xhatE,'DisplayName','xhatE');
-   hold on
-   plot(x,vxhatE,'DisplayName','vxhatE');
-   hold on
+   plot(x,xhatE,'DisplayName','xhatE'); hold on
+   
+   %% speed
+   %plot(x,vxhatE,'DisplayName','vxhatE'); hold on
    %% energies
    
     
